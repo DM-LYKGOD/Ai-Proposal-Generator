@@ -1,16 +1,30 @@
 import React from 'react';
 
-export const LogoIcon: React.FC = () => (
-    <img src="https://i.postimg.cc/d1Yy63ch/image-removebg-preview.png" alt="Thought Bins Logo" className="h-12 w-auto" />
+export const LogoIcon: React.FC<{ src?: string; className?: string; alt?: string }> = ({ 
+  src = "https://i.postimg.cc/d1Yy63ch/image-removebg-preview.png",
+  className = "h-12 w-auto object-contain max-w-[220px]",
+  alt = "Thought Bins Logo" 
+}) => (
+  <img 
+    src={src} 
+    alt={alt} 
+    className={className} 
+    onError={(e) => {
+      // Fallback in case of external image network error
+      const target = e.target as HTMLImageElement;
+      target.style.display = 'none';
+      if (target.parentElement) {
+        target.parentElement.innerHTML = `<span class="text-xl font-bold tracking-tight text-sky-700">${alt}</span>`;
+      }
+    }}
+  />
 );
-
 
 export const MailIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-    </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+  </svg>
 );
-
 
 export const WebIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>

@@ -1,44 +1,73 @@
-
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 
 interface EditableFieldProps {
   value: string;
   onChange: (value: string) => void;
   type?: 'input' | 'textarea';
   className?: string;
+  placeholder?: string;
+  multilineRows?: number;
 }
 
-const EditableField: React.FC<EditableFieldProps> = ({ value, onChange, type = 'input', className = '' }) => {
+const EditableField: React.FC<EditableFieldProps> = ({
+  value,
+  onChange,
+  type = 'input',
+  className = '',
+  placeholder = '[Click to edit]',
+  multilineRows = 1,
+}) => {
   const [editing, setEditing] = useState(false);
   const [currentValue, setCurrentValue] = useState(value);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
+  // Sync internal state when prop changes
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
   useLayoutEffect(() => {
     if (editing && inputRef.current) {
-        inputRef.current.focus();
-        if (type === 'textarea') {
-            const el = inputRef.current as HTMLTextAreaElement;
-            el.style.height = 'auto';
-            el.style.height = `${el.scrollHeight}px`;
-        }
+      inputRef.current.focus();
+      if (type === 'textarea') {
+        const el = inputRef.current as HTMLTextAreaElement;
+        el.style.height = 'auto';
+        el.style.height = `${Math.max(el.scrollHeight, 40)}px`;
+      } else {
+        (inputRef.current as HTMLInputElement).select();
+      }
     }
   }, [editing, type]);
 
   const handleBlur = () => {
     setEditing(false);
-    onChange(currentValue);
+    if (currentValue !== value) {
+      onChange(currentValue);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setCurrentValue(value);
+      setEditing(false);
+    } else if (e.key === 'Enter' && type === 'input') {
+      setEditing(false);
+      if (currentValue !== value) {
+        onChange(currentValue);
+      }
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setCurrentValue(e.target.value);
     if (type === 'textarea') {
-        const el = e.target as HTMLTextAreaElement;
-        el.style.height = 'auto';
-        el.style.height = `${el.scrollHeight}px`;
+      const el = e.target as HTMLTextAreaElement;
+      el.style.height = 'auto';
+      el.style.height = `${Math.max(el.scrollHeight, 40)}px`;
     }
   };
-  
-  const commonClasses = "w-full p-0 m-0 bg-transparent border-none focus:ring-0 focus:outline-none resize-none";
+
+  const baseEditingClasses = "w-full p-1.5 bg-sky-50 border border-sky-400 rounded text-gray-900 focus:ring-2 focus:ring-sky-500 focus:outline-none transition-all";
 
   if (editing) {
     if (type === 'textarea') {
@@ -48,8 +77,10 @@ const EditableField: React.FC<EditableFieldProps> = ({ value, onChange, type = '
           value={currentValue}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={`${commonClasses} ${className}`}
-          rows={1}
+          onKeyDown={handleKeyDown}
+          className={`${baseEditingClasses} ${className}`}
+          rows={multilineRows}
+          placeholder={placeholder}
         />
       );
     }
@@ -60,14 +91,27 @@ const EditableField: React.FC<EditableFieldProps> = ({ value, onChange, type = '
         value={currentValue}
         onChange={handleChange}
         onBlur={handleBlur}
-        className={`${commonClasses} ${className}`}
+        onKeyDown={handleKeyDown}
+        className={`${baseEditingClasses} ${className}`}
+        placeholder={placeholder}
       />
     );
   }
 
   return (
-    <span onClick={() => setEditing(true)} className={`cursor-pointer hover:bg-sky-100 rounded p-1 -m-1 ${className}`}>
-      {value || <span className="text-gray-400">[empty]</span>}
+    <span
+      onClick={() => setEditing(true)}
+      title="Click to edit text"
+      className={`group relative cursor-pointer hover:bg-sky-50/80 hover:ring-1 hover:ring-sky-300 rounded px-1 py-0.5 -mx-1 transition-all inline-block ${className}`}
+    >
+      {value ? (
+        <span>{value}</span>
+      ) : (
+        <span className="text-gray-400 italic text-sm">{placeholder}</span>
+      )}
+      <span className="no-print opacity-0 group-hover:opacity-100 transition-opacity ml-1.5 text-xs text-sky-500 inline-block align-middle font-normal">
+        ✎
+      </span>
     </span>
   );
 };

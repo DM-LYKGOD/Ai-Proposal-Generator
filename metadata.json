@@ -1,6 +1,8 @@
 {
   "name": "AI Proposal Generator",
-  "description": "An application to generate professional techno-commercial sales proposals using AI. Users can input client details, and the app generates a formatted proposal, ready to be edited and saved as a PDF.",
+  "description": "Professional techno-commercial sales proposal generator matching the ThoughtBins brand styling. Create, customize, AI-generate, and export print-ready PDF sales proposals with structured scope, timelines, commercials, SLAs, and signature blocks.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
