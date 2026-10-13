@@ -1,0 +1,6 @@
+{
+  "name": "AI Proposal Generator",
+  "description": "An application to generate professional techno-commercial sales proposals using AI. Users can input client details, and the app generates a formatted proposal, ready to be edited and saved as a PDF.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
