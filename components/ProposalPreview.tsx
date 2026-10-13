@@ -406,7 +406,7 @@ ${data.conclusion}
       {/* The Printable Proposal Sheet */}
       <div 
         id="print-area" 
-        className="bg-white p-10 md:p-14 shadow-2xl rounded-xl border border-gray-200/80 w-full max-w-[850px] mx-auto min-h-[1100px] text-gray-800 transition-all font-sans leading-relaxed selection:bg-sky-100"
+        className="bg-white p-6 sm:p-10 md:p-14 shadow-2xl rounded-xl border border-gray-200/80 w-full max-w-[850px] mx-auto min-h-[1100px] text-gray-800 transition-all font-sans leading-relaxed selection:bg-sky-100"
       >
         {/* Header - Logo and Contact Info */}
         <div className="flex justify-between items-start pb-8 border-b border-gray-100">
@@ -654,7 +654,7 @@ ${data.conclusion}
                 <Plus className="w-3 h-3" /> Add Phase
               </button>
             </div>
-            <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-gray-200">
               <table className="w-full border-collapse text-sm">
                 <thead>
                   <tr style={{ backgroundColor: theme.primaryDarkHex }} className="text-white">
@@ -705,7 +705,7 @@ ${data.conclusion}
                 <Plus className="w-3 h-3" /> Add Item
               </button>
             </div>
-            <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-gray-200">
               <table className="w-full border-collapse text-sm">
                 <thead>
                   <tr style={{ backgroundColor: theme.primaryDarkHex }} className="text-white">
@@ -790,7 +790,7 @@ ${data.conclusion}
                 <Plus className="w-3 h-3" /> Add SLA
               </button>
             </div>
-            <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="overflow-x-auto rounded-lg border border-gray-200">
               <table className="w-full border-collapse text-sm">
                 <thead>
                   <tr style={{ backgroundColor: theme.primaryDarkHex }} className="text-white">
